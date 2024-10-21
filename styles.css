@@ -1,0 +1,50 @@
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+}
+
+.container {
+  text-align: center;
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 300px; /* Fixed width for consistency */
+}
+
+button {
+  background-color: green;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  margin: 10px 0; /* Margin for spacing between buttons */
+}
+
+button:hover {
+  background-color: darkgreen;
+}
+
+.spacer {
+  margin: 15px 0; /* Space between lootbox and challenges buttons */
+}
+
+.options {
+  margin: 20px 0; /* Space above the options */
+}
+
+.rps-btn {
+  margin: 5px; /* Margin for spacing between RPS buttons */
+}
+
+.result {
+  margin-top: 20px;
+  font-size: 20px;
+}
