@@ -101,19 +101,18 @@ function getComputerChoice() {
   return choices[randomIndex];
 }
 
-// Function to determine the winner of RPS
 function determineWinner(player, computer, bet) {
-  if (player === computer) {
-    return { message: "It's a draw! 🤝", payout: bet }; // Return the bet amount
-  }
-  if (
-    (player === "rock" && computer === "scissors") ||
-    (player === "paper" && computer === "rock") ||
-    (player === "scissors" && computer === "paper")
-  ) {
-    return { message: "You win! 🎉", payout: bet * 2 }; // Win, payout 2x
-  }
-  return { message: "You lose! 😢", payout: 0 }; // Lose, payout 0
+    if (player === computer) {
+        return { message: "It's a draw! 🤝", payout: bet }; // Return the bet amount (payout 1x)
+    }
+    if (
+        (player === "rock" && computer === "scissors") ||
+        (player === "paper" && computer === "rock") ||
+        (player === "scissors" && computer === "paper")
+    ) {
+        return { message: "You win! 🎉", payout: bet * 2 }; // Win, payout 2x
+    }
+    return { message: "You lose! 😢", payout: -bet }; // Lose, payout -1x
 }
 
 // Function to display the result of the RPS game
