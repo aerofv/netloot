@@ -71,25 +71,29 @@ document.getElementById("goToChallenges").addEventListener("click", () => {
 
 // RPS Game Logic
 document.querySelectorAll(".rps-btn").forEach((button) => {
-  button.addEventListener("click", () => {
-    const playerChoice = button.dataset.choice;
-    const computerChoice = getComputerChoice();
-    const betAmount = parseInt(document.getElementById("betAmount").value);
+    button.addEventListener("click", () => {
+        const playerChoice = button.dataset.choice; // Get player choice
+        const computerChoice = getComputerChoice(); // Get computer choice
+        const betAmount = parseInt(document.getElementById("betAmount").value); // Get bet amount
 
-    if (isNaN(betAmount) || betAmount <= 0 || betAmount > balanceOnRefresh) {
-      alert("Please enter a valid bet amount.");
-      return;
-    }
+        // Validate the bet amount
+        if (isNaN(betAmount) || betAmount <= 0 || betAmount > balanceOnRefresh) {
+            alert("Please enter a valid bet amount.");
+            return;
+        }
 
-    const result = determineWinner(playerChoice, computerChoice, betAmount);
-    displayChallengeResult(playerChoice, computerChoice, result, betAmount);
+        // Deduct the bet amount from the balance
+        balanceOnRefresh -= betAmount;
 
-    // Update balance based on the result
-    balanceOnRefresh += result.payout;
-    updateBalance(); // Save updated balance to local storage and update display
-  });
+        // Determine the winner and get the result
+        const result = determineWinner(playerChoice, computerChoice, betAmount);
+        displayChallengeResult(playerChoice, computerChoice, result);
+
+        // Update balance based on the result
+        balanceOnRefresh += result.payout; // Add the payout to the balance
+        updateBalance(); // Save updated balance to local storage and update display
+    });
 });
-
 // Function to get the computer's choice
 function getComputerChoice() {
   const choices = ["rock", "paper", "scissors"];
