@@ -7,15 +7,15 @@ updateBalanceDisplay();
 
 // Event listener for opening a lootbox
 document.getElementById("openLootbox").addEventListener("click", () => {
-  if (balanceOnRefresh >= lootboxCost) {
-    balanceOnRefresh -= lootboxCost; // Deduct lootbox cost
-    const prize = openLootbox(); // Get the prize
-    balanceOnRefresh += prize; // Update the balance with the prize
-    displayResult(prize); // Show the result
-    updateBalance(); // Update balance display in local storage
-  } else {
-    alert("Not enough NL to open a lootbox!");
-  }
+    if (balanceOnRefresh >= lootboxCost) {
+        balanceOnRefresh -= lootboxCost; // Deduct lootbox cost
+        const prize = openLootbox(); // Get the prize
+        balanceOnRefresh += prize; // Update the balance with the prize
+        displayResult(prize); // Show the result
+        updateBalance(); // Update balance display in local storage
+    } else {
+        alert(`Not enough NL to open a lootbox! You need ${lootboxCost - balanceOnRefresh} more NL.`);
+    }
 });
 
 // Function to open a lootbox and determine the prize
