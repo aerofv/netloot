@@ -7,15 +7,15 @@ updateBalanceDisplay();
 
 // Event listener for opening a lootbox
 document.getElementById("openLootbox").addEventListener("click", () => {
-    if (balanceOnRefresh >= lootboxCost) {
-        balanceOnRefresh -= lootboxCost; // Deduct lootbox cost
-        const prize = openLootbox(); // Get the prize
-        balanceOnRefresh += prize; // Update the balance with the prize
-        displayResult(prize); // Show the result
-        updateBalance(); // Update balance display in local storage
-    } else {
-        alert(`Not enough NL to open a lootbox! You need ${lootboxCost - balanceOnRefresh} more NL.`);
-    }
+  if (balanceOnRefresh >= lootboxCost) {
+    balanceOnRefresh -= lootboxCost; // Deduct lootbox cost
+    const prize = openLootbox(); // Get the prize
+    balanceOnRefresh += prize; // Update the balance with the prize
+    displayResult(prize); // Show the result
+    updateBalance(); // Update balance display in local storage
+  } else {
+    alert("Not enough NL to open a lootbox!");
+  }
 });
 
 // Function to open a lootbox and determine the prize
@@ -71,29 +71,25 @@ document.getElementById("goToChallenges").addEventListener("click", () => {
 
 // RPS Game Logic
 document.querySelectorAll(".rps-btn").forEach((button) => {
-    button.addEventListener("click", () => {
-        const playerChoice = button.dataset.choice; // Get player choice
-        const computerChoice = getComputerChoice(); // Get computer choice
-        const betAmount = parseInt(document.getElementById("betAmount").value); // Get bet amount
+  button.addEventListener("click", () => {
+    const playerChoice = button.dataset.choice;
+    const computerChoice = getComputerChoice();
+    const betAmount = parseInt(document.getElementById("betAmount").value);
 
-        // Validate the bet amount
-        if (isNaN(betAmount) || betAmount <= 0 || betAmount > balanceOnRefresh) {
-            alert("Please enter a valid bet amount.");
-            return;
-        }
+    if (isNaN(betAmount) || betAmount <= 0 || betAmount > balanceOnRefresh) {
+      alert("Please enter a valid bet amount.");
+      return;
+    }
 
-        // Deduct the bet amount from the balance
-        balanceOnRefresh -= betAmount;
+    const result = determineWinner(playerChoice, computerChoice, betAmount);
+    displayChallengeResult(playerChoice, computerChoice, result, betAmount);
 
-        // Determine the winner and get the result
-        const result = determineWinner(playerChoice, computerChoice, betAmount);
-        displayChallengeResult(playerChoice, computerChoice, result);
-
-        // Update balance based on the result
-        balanceOnRefresh += result.payout; // Add the payout to the balance
-        updateBalance(); // Save updated balance to local storage and update display
-    });
+    // Update balance based on the result
+    balanceOnRefresh += result.payout;
+    updateBalance(); // Save updated balance to local storage and update display
+  });
 });
+
 // Function to get the computer's choice
 function getComputerChoice() {
   const choices = ["rock", "paper", "scissors"];
@@ -101,18 +97,19 @@ function getComputerChoice() {
   return choices[randomIndex];
 }
 
+// Function to determine the winner of RPS
 function determineWinner(player, computer, bet) {
-    if (player === computer) {
-        return { message: "It's a draw! 🤝", payout: bet }; // Return the bet amount (payout 1x)
-    }
-    if (
-        (player === "rock" && computer === "scissors") ||
-        (player === "paper" && computer === "rock") ||
-        (player === "scissors" && computer === "paper")
-    ) {
-        return { message: "You win! 🎉", payout: bet * 2 }; // Win, payout 2x
-    }
-    return { message: "You lose! 😢", payout: -bet }; // Lose, payout -1x
+  if (player === computer) {
+    return { message: "It's a draw! 🤝", payout: bet }; // Return the bet amount
+  }
+  if (
+    (player === "rock" && computer === "scissors") ||
+    (player === "paper" && computer === "rock") ||
+    (player === "scissors" && computer === "paper")
+  ) {
+    return { message: "You win! 🎉", payout: bet * 2 }; // Win, payout 2x
+  }
+  return { message: "You lose! 😢", payout: 0 }; // Lose, payout 0
 }
 
 // Function to display the result of the RPS game
@@ -127,6 +124,22 @@ function displayChallengeResult(player, computer, result, bet) {
 document.getElementById("backToHome").addEventListener("click", () => {
   window.location.href = "index.html"; // Redirect to main page
 });
+// script.js
 
-// Call the function to start earning for cursor movement (if implemented)
-// startActivityReward();
+const toggleButton = document.getElementById("darkModeToggle");
+
+toggleButton.addEventListener("click", () => {
+  document.body.classList.toggle("dark-mode");
+
+  // Save the user's preference in local storage
+  if (document.body.classList.contains("dark-mode")) {
+    localStorage.setItem("darkMode", "enabled");
+  } else {
+    localStorage.setItem("darkMode", "disabled");
+  }
+});
+
+// Check local storage for the user's preference on page load
+if (localStorage.getItem("darkMode") === "enabled") {
+  document.body.classList.add("dark-mode");
+}
